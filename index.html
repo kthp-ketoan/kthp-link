@@ -1,0 +1,13 @@
+<!doctype html><html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>KTHP - Vào phần mềm kế toán</title>
+<style>body{font:16px system-ui,sans-serif;display:flex;min-height:90vh;align-items:center;justify-content:center;text-align:center;color:#223}button{padding:8px 16px;font-size:15px;cursor:pointer}</style></head>
+<body><div><h2>KTHP - Phần mềm kế toán</h2><p id="m">Đang tìm địa chỉ mới nhất…</p><button id="b" hidden onclick="location.reload()">Thử lại</button></div>
+<script>
+(async()=>{const m=document.getElementById('m'),b=document.getElementById('b');
+ try{const p=location.pathname.replace(/\/+$/,'').split('/').filter(Boolean),owner=location.hostname.split('.')[0],repo=p[0]||(owner+'.github.io');
+  const r=await fetch('https://api.github.com/repos/'+owner+'/'+repo+'/contents/link.json',{headers:{Accept:'application/vnd.github.raw+json'},cache:'no-store'});
+  const j=JSON.parse(await r.text());
+  if(j.url&&/^https:\/\/[a-z0-9-]+\.trycloudflare\.com\/?/.test(j.url)){m.textContent='Đang chuyển vào…';location.replace(j.url.replace(/\/$/,'')+'/_np/');return}
+  m.textContent='Máy kế toán đang tắt hoặc chưa mở truy cập từ xa. Vui lòng liên hệ chị Trang.';
+ }catch(e){m.textContent='Chưa lấy được địa chỉ. Kiểm tra mạng rồi thử lại.'}
+ b.hidden=false})();
+</script></body></html>
